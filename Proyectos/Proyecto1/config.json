@@ -1,0 +1,57 @@
+{
+    "mode": "{tcp|udp|http}",
+    "tcp": {
+        "ports": {
+            "{port number, many ports can be specified}": [
+                {
+                    "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                    "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                    "port": "{destination port,suports environment variables with syntax $VARIABLE}"
+                },
+                {
+                    "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                    "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                    "port": "{destination port,suports environment variables with syntax $VARIABLE}"
+                }
+            ]
+        }
+    },
+    "udp": {
+        "ports": {
+            "{port number, many ports can be specified}": [
+                {
+                    "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                    "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                    "port": "{destination port,suports environment variables with syntax $VARIABLE}"
+                },
+                {
+                    "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                    "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                    "port": "{destination port,suports environment variables with syntax $VARIABLE}"
+                }
+            ]
+        }
+    },
+    "http": {
+        "ports": {
+            "{port number, many ports can be specified, only TCP ports}": {
+                "{host name, many rules of this type can be specified but with different host name}": [
+                    {
+                        "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                        "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                        "port": "{destination port,suports environment variables with syntax $VARIABLE}",
+                        "type": "{host|path, if path is selected, it requires path config key}",
+                        "path": "{path to perform the redirect, for instance /apache1}"
+                    },
+                    {
+                        "ip": "{many blocks like this one, suports environment variables with syntax $VARIABLE}",
+                        "weight": "{optional field, number between 1 and 100, suports environment variables with syntax $VARIABLE}",
+                        "port": "{destination port,suports environment variables with syntax $VARIABLE}",
+                        "type": "{host|path, if path is selected, it requires path config key}",
+                        "path": "{path to perform the redirect, for instance /apache1}"
+                    }
+                ]
+            }
+        }
+    }
+}
