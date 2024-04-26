@@ -1,3 +1,4 @@
-# Repositorio del curso de Redes del estudiante Maximo Agrazal 
+# Repositorio del curso de Redes 
+## Estudiante Maximo Agrazal 
 Contenido: lecturas, apuntes, proyectos
 
