@@ -2,4 +2,4 @@
 FROM httpd:latest
 
 # Copia el archivo HTML al directorio de documentos de Apache
-COPY pruebasHTTP.html /usr/local/apache2/htdocs/
+COPY pruebaHTTP.html /usr/local/apache2/htdocs/

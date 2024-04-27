@@ -1,11 +1,11 @@
-# Usa una imagen base de Python
 FROM python:3.9-slim
 
-# Copia el script de pruebasUDP.py al directorio de trabajo del contenedor
-COPY pruebasUDP.py /app/pruebasUDP.py
+# Copia el script del servidor UDP al contenedor
+COPY server.py /app/server.py
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Ejecuta el script de pruebasUDP.py
-CMD ["python", "pruebasUDP.py"]
+# Ejecuta el servidor UDP cuando se inicie el contenedor
+CMD ["python", "server.py"]
+
