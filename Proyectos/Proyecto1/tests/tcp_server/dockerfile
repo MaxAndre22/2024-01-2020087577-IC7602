@@ -1,0 +1,9 @@
+# Usa una imagen base de Apache
+FROM httpd:alpine
+
+# Copia el archivo HTML al directorio de trabajo del contenedor
+COPY pruebaTCP.html /usr/local/apache2/htdocs/pruebaTCP.html
+
+# Exponer el puerto 80 para que el servidor Apache pueda ser accedido desde fuera del contenedor
+EXPOSE 80
+

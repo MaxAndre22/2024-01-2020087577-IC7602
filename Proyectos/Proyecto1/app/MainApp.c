@@ -113,7 +113,7 @@ int modeTCP(cJSON *json) {
             }
             printf("\n");
 
-            // Aquí puedes realizar cualquier operación adicional que necesites con los datos del servidor
+            //Realizar cualquier operación adicional que necesites con los datos del servidor
         }
     }
 
@@ -201,7 +201,7 @@ int modeUDP(cJSON *json) {
             }
             printf("\n");
 
-            // Aquí puedes realizar cualquier operación adicional que necesites con los datos del servidor
+            //Realizar cualquier operación adicional que necesites con los datos del servidor
         }
     }
 
@@ -308,7 +308,7 @@ int modeHTTP(cJSON *json) {
                 }
                 printf("\n");
 
-                // Aquí puedes realizar cualquier operación adicional que necesites con los datos del servidor
+                //Realizar cualquier operación adicional que necesites con los datos del servidor
             }
         }
     }
