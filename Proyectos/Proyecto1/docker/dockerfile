@@ -3,12 +3,10 @@
 #WORKDIR /usr/src/myapp
 #RUN gcc -o MainApp MainApp.c cJSON.c -I.
 #CMD ["./MainApp"]
-
-
 FROM ubuntu:latest
 
 # Configurar el directorio de trabajo y copiar la aplicación
-WORKDIR /usr/src/myapp
+WORKDIR /usr/src/MainApp
 COPY app/ .
 
 # Actualizar el índice de paquetes
@@ -31,12 +29,12 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 
 # Compilar la aplicación
 #RUN     gcc -o myapp MainApp.c cJSON.c -I.
-RUN gcc -o myapp MainApp.c -I/usr/local/include -L/usr/local/lib -lcjson
+RUN gcc -o MainApp MainApp.c -I/usr/local/include -L/usr/local/lib -lcjson
 
 # Permisos y ejecución de la aplicacion app.c
 
-RUN chmod +x myapp
-RUN /usr/src/myapp/myapp
+RUN chmod +x MainApp
+RUN /usr/src/MainApp/MainApp
 
 # Ejecutar la imagen
 CMD [ "tail", "-f", "/dev/null"]

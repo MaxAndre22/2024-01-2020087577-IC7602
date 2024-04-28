@@ -7,6 +7,6 @@ config:
     env:
       SERVER1: "10.0.0.1"
       SERVER2: "10.0.0.2"
-      SERVER3: "10.0.0.2"
-      SERVER4: "10.0.0.3"
-      SERVER5: "10.0.0.4"
+      SERVER3: "10.0.0.3"
+      SERVER4: "10.0.0.4"
+      SERVER5: "10.0.0.5"
