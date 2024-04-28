@@ -94,7 +94,7 @@ int modeTCP(cJSON *json) {
         }
         printf("\n");
 
-        //Realizar cualquier operación adicional
+        forwardData(atoi(serverPort),"", serverIp, atoi(serverPort));
         }
     }
 
@@ -162,7 +162,8 @@ int modeUDP(cJSON *json) {
         }
         printf("\n");
 
-        //Realizar cualquier operación adicional
+        forwardData(atoi(serverPort),"", serverIp, atoi(serverPort));
+
         }
     }
 
@@ -195,63 +196,67 @@ int modeHTTP(cJSON *json) {
     const char *serverType;
     const char *serverPath;
 
-    // Loops para extraer los datos de los puertos HTTP
+    // Ahora, recorremos los puertos
     cJSON_ArrayForEach(port, ports) {
-    portNumber = port->string;
-    portContent = cJSON_GetObjectItemCaseSensitive(ports, portNumber);
-    printf("Port: %s\n", portNumber);
+        portNumber = port->string;
+        portContent = cJSON_GetObjectItemCaseSensitive(ports, portNumber);
+        printf("Port: %s\n", portNumber);
 
-    if (portContent == NULL || !cJSON_IsObject(portContent)) {
-        printf("PORT CONTENT: NULL or not an object\n");
-        continue;
-    }
-
-    cJSON_ArrayForEach(dns, portContent) {
-        hostname = dns->string;
-        hostnameContent = cJSON_GetObjectItemCaseSensitive(portContent, hostname);
-        printf("Hostname: %s\n", hostname);
-
-        if (hostnameContent == NULL || !cJSON_IsArray(hostnameContent)) {
-            printf("HOSTNAME: NULL or not an array\n");
+        if (portContent == NULL || !cJSON_IsObject(portContent)) {
+            printf("PORT CONTENT: NULL or not an object\n");
             continue;
         }
 
-        cJSON_ArrayForEach(hostnameData, hostnameContent) {
-            if (!cJSON_IsObject(hostnameData)) {
-                printf("HOSTNAME DATA: NULL or not an object\n");
+        // Luego, recorremos los DNS
+        cJSON_ArrayForEach(dns, portContent) {
+            hostname = dns->string;
+            hostnameContent = cJSON_GetObjectItemCaseSensitive(portContent, hostname);
+            printf("Hostname: %s\n", hostname);
+
+            if (hostnameContent == NULL || !cJSON_IsArray(hostnameContent)) {
+                printf("HOSTNAME: NULL or not an array\n");
                 continue;
             }
 
-            serverIp = cJSON_GetObjectItemCaseSensitive(hostnameData, "ip")->valuestring;
-            serverPort = cJSON_GetObjectItemCaseSensitive(hostnameData, "port")->valuestring;
-            serverWeight = cJSON_GetObjectItemCaseSensitive(hostnameData, "weight") != NULL ? cJSON_GetObjectItemCaseSensitive(hostnameData, "weight")->valuestring : NULL;
-            serverType = cJSON_GetObjectItemCaseSensitive(hostnameData, "type")->valuestring;
-            serverPath = cJSON_GetObjectItemCaseSensitive(hostnameData, "path") != NULL ? cJSON_GetObjectItemCaseSensitive(hostnameData, "path")->valuestring : NULL;
-
-            // Revisar por variable de entorno solo para serverIp
-            if (serverIp[0] == '$') {
-                const char *env_var = getenv(serverIp + 1);
-                if (env_var != NULL) {
-                    serverIp = env_var;
-                } else {
-                    printf("Error: Variable de entorno '%s' no encontrada.\n", serverIp + 1);
+            // Después, recorremos los datos de cada hostname
+            cJSON_ArrayForEach(hostnameData, hostnameContent) {
+                if (!cJSON_IsObject(hostnameData)) {
+                    printf("HOSTNAME DATA: NULL or not an object\n");
                     continue;
                 }
-            }
 
-            printf("  IP: %s, Port: %s, Type: %s", serverIp, serverPort, serverType);
-            if (serverWeight != NULL) {
-                printf(", Weight: %s", serverWeight);
-            }
-            if (serverPath != NULL) {
-                printf(", Path: %s", serverPath);
-            }
-            printf("\n");
+                serverIp = cJSON_GetObjectItemCaseSensitive(hostnameData, "ip")->valuestring;
+                serverPort = cJSON_GetObjectItemCaseSensitive(hostnameData, "port")->valuestring;
+                serverWeight = cJSON_GetObjectItemCaseSensitive(hostnameData, "weight") != NULL ? cJSON_GetObjectItemCaseSensitive(hostnameData, "weight")->valuestring : NULL;
+                serverType = cJSON_GetObjectItemCaseSensitive(hostnameData, "type")->valuestring;
+                serverPath = cJSON_GetObjectItemCaseSensitive(hostnameData, "path") != NULL ? cJSON_GetObjectItemCaseSensitive(hostnameData, "path")->valuestring : NULL;
 
-            //Realizar cualquier operación adicional que necesites con los datos del servidor
+                // Revisar por variable de entorno solo para serverIp
+                if (serverIp[0] == '$') {
+                    const char *env_var = get_environment_variable(serverIp + 1);
+                    if (env_var != NULL) {
+                        serverIp = env_var;
+                    } else {
+                        printf("Error: Variable de entorno '%s' no encontrada.\n", serverIp + 1);
+                        continue;
+                    }
+                }
+
+                printf("  IP: %s, Port: %s, Type: %s", serverIp, serverPort, serverType);
+                if (serverWeight != NULL) {
+                    printf(", Weight: %s", serverWeight);
+                }
+                if (serverPath != NULL) {
+                    printf(", Path: %s", serverPath);
+                }
+                printf("\n");
+
+                // Llamamos a forwardData con la información recopilada
+                forwardData(atoi(serverPort), hostname, serverIp, atoi(serverPort));
+                }
             }
-        }
-    }
+        }   
+
 
 
     return 0;
