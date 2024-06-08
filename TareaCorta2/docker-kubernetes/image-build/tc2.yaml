@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tc2-deployment
+  labels:
+    app: tc2
+spec:
+  replicas: { { .Values.replicas } }
+  selector:
+    matchLabels:
+      app: tc2
+  template:
+    metadata:
+      labels:
+        app: tc2
+    spec:
+      containers:
+        - name: tc2
+          image: kevinqj19/tc2
+          ports:
+            - containerPort: 9666
